@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "SOKO",
+      "hasCanvas": false,
+      "bodyTextLen": 1588,
+      "bodyTextHash": "53df715bd6ce7987f7e7d530710dca0ef29513669e3ae59462ed4a8e6546e1d0",
+      "bodyTextPrefix": "Same-day Nairobi delivery · Free over KSh 2,000 · Packed at Ngar",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "SOKO",
+      "hasCanvas": false,
+      "bodyTextLen": 1354,
+      "bodyTextHash": "39e40fa6d8db9a5f389a54dc60eaef6471808beebe0b1964f2a601c4ad5cbbb2",
+      "bodyTextPrefix": "Same-day Nairobi delivery · Free over KSh 2,000 · Packed at Ngar",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}
