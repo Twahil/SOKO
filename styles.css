@@ -1,0 +1,102 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+
+  --color-bg: #f3eee4;
+  --color-surface: #faf6ee;
+  --color-surface-2: #ece4d4;
+  --color-fg: #1c2418;
+  --color-muted: #5f6758;
+  --color-subtle: #8a9184;
+  --color-primary: #245c38;
+  --color-primary-fg: #faf6ee;
+  --color-primary-hover: #1c4a2d;
+  --color-border: #d8d0c0;
+  --color-danger: #8f3d32;
+  --color-ring: #245c38;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+
+  --shadow-border:
+    0px 0px 0px 1px rgba(28, 36, 24, 0.06),
+    0px 1px 2px -1px rgba(28, 36, 24, 0.06),
+    0px 2px 4px 0px rgba(28, 36, 24, 0.04);
+  --shadow-lift:
+    0px 0px 0px 1px rgba(28, 36, 24, 0.08),
+    0px 8px 24px -12px rgba(28, 36, 24, 0.18);
+
+  --ease-out-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  body {
+    min-height: 100dvh;
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-family: var(--font-display);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  img {
+    outline: 1px solid rgba(28, 36, 24, 0.08);
+    outline-offset: -1px;
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-primary-fg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+@utility shadow-border {
+  box-shadow: var(--shadow-border);
+}
+
+@utility shadow-lift {
+  box-shadow: var(--shadow-lift);
+}
