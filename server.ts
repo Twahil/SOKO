@@ -3,7 +3,7 @@ import { betterAuth } from "better-auth";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 import { Pool } from "pg";
 import { randomBytes } from "node:crypto";
-import { ensureDbReady, getPglite } from "../db";
+import { ensureDbReady, getPglite } from "./db";
 import { emailAndPasswordEnabled } from "./email-password";
 import { pgliteDialect } from "./pglite-dialect";
 
