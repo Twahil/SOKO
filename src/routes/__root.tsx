@@ -1,8 +1,13 @@
-import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
+import {
+  createRootRoute,
+  HeadContent,
+  Outlet,
+  Scripts,
+} from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { SiteShell } from "@/components/site-shell";
 import { Toaster } from "sonner";
-import appCss from "../styles.css?url";
+import appCss from "../../styles.css?url";
 
 const APP_NAME = "SOKO";
 
@@ -22,7 +27,11 @@ export const Route = createRootRoute({
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&display=swap",
@@ -42,9 +51,7 @@ export const Route = createRootRoute({
           </SiteShell>
           <Toaster
             position="top-center"
-            toastOptions={{
-              className: "font-sans",
-            }}
+            toastOptions={{ className: "font-sans" }}
           />
         </AuthProvider>
         <Scripts />
