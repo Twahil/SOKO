@@ -26,7 +26,7 @@ function hasGlobbedMigrations(root: string): boolean {
  * migrations — no schema to apply — skips it entirely rather than paying for a
  * PGLite instance it never queries.
  */
-function pgliteBootstrapPlugin(): Plugin {
+ function pgliteBootstrapPlugin(): Plugin {
   return {
     name: "app-builder:pglite-bootstrap",
     apply: "serve",
@@ -34,9 +34,6 @@ function pgliteBootstrapPlugin(): Plugin {
       if (!hasGlobbedMigrations(server.config.root)) return;
       try {
         const mod = (await server.ssrLoadModule("/src/lib/db.ts")) as {
-ensureDbReady?: () => Promise<void>;};
-};
-};)) as {
           ensureDbReady?: () => Promise<void>;
         };
         if (typeof mod.ensureDbReady === "function") {
