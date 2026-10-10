@@ -33,7 +33,10 @@ function pgliteBootstrapPlugin(): Plugin {
     async configureServer(server) {
       if (!hasGlobbedMigrations(server.config.root)) return;
       try {
-        const mod = (const mod = (await server.ssrLoadModule("/db.ts")) as {
+        const mod = (await server.ssrLoadModule("/src/lib/db.ts")) as {
+ensureDbReady?: () => Promise<void>;};
+};
+};)) as {
           ensureDbReady?: () => Promise<void>;
         };
         if (typeof mod.ensureDbReady === "function") {
