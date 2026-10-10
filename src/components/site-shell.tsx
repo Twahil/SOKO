@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { import { Leaf, Search, ShoppingBag, Store, ClipboardList, House } from "lucide-react"; } from "lucide-react";
+import { Leaf, Search, ShoppingBag, Store, ClipboardList } from "lucide-react";
 import { CATEGORIES } from "@/lib/catalog";
 import { useSokoStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -189,7 +189,7 @@ cartCount: number;
 onOpenCart: () => void;
 }) {
 const items = [
-{ href: "/", label: "Nyumbani", icon: Nyumbani, match: (p: string) => p === "/" },
+{ href: "/", label: "Nyumbani", icon: House, match: (p: string) => p === "/" },
 { href: "/shop", label: "Shop", icon: Store, match: (p: string) => p.startsWith("/shop") || p.startsWith("/product") },
 { href: "/orders", label: "Oda", icon: ClipboardList, match: (p: string) => p.startsWith("/orders") },
 ] as const;
