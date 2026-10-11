@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ClipboardList } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatTsh, formatWhen } from "@/lib/money";
-import { listOrders, type StoredOrder } from "@/lib/orders.server";
+import { listOrders, type StoredOrder } from "@/lib/orders";
 import { statusLabel } from "@/lib/store";
 import { useCurrentUserState } from "@/lib/auth/use-current-user";
 
