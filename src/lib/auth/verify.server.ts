@@ -1,5 +1,5 @@
 import { getRequest } from "@tanstack/react-start/server";
-import { auth } from "../../../server";
+import { auth } from "../../../better-auth";
 
 export class UnauthorizedError extends Error {
   readonly status = 401;
