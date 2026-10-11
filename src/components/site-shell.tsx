@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Leaf, Search, ShoppingBag, Store, ClipboardList } from "lucide-react";
+import { Leaf, Search, ShoppingBag, Store, ClipboardList, House } from "lucide-react";
 import { CATEGORIES } from "@/lib/catalog";
 import { useSokoStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
