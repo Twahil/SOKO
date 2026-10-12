@@ -1,15 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
-<rect width="800" height="600" rx="36" fill="#fff0e8"/>
-<ellipse cx="400" cy="475" rx="230" ry="25" fill="#f0c8b8"/>
-<g stroke="#a32222" stroke-width="10">
-<circle cx="300" cy="330" r="115" fill="#ed3d32"/>
-<circle cx="485" cy="340" r="120" fill="#e52d2d"/>
-<circle cx="400" cy="245" r="105" fill="#f04438"/>
-</g>
-<g fill="#398447" stroke="#286b32" stroke-width="7">
-<path d="M400 150 L380 105 L410 125 L440 95 L430 145 L475 155 L430 175 L400 150Z"/>
-<path d="M290 225 L255 190 L295 205 L320 175 L320 220Z"/>
-<path d="M490 230 L520 190 L510 225 L550 215 L520 250Z"/>
-</g>
-<text x="400" y="545" font-size="42" text-anchor="middle" font-family="Arial" font-weight="bold" fill="#a32222">NYANYA</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff8df"/>
+      <stop offset="100%" stop-color="#f5e6b5"/>
+    </linearGradient>
+    <linearGradient id="banana" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#fff36b"/>
+      <stop offset="55%" stop-color="#ffd92f"/>
+      <stop offset="100%" stop-color="#e9a817"/>
+    </linearGradient>
+  </defs>  <rect width="600" height="600" rx="32" fill="url(#bg)"/>
+  <ellipse cx="300" cy="445" rx="190" ry="30" fill="#b6a36a" opacity="0.2"/>  <g stroke="#9b6b13" stroke-width="5" stroke-linejoin="round">
+    <path d="M170 160 Q115 300 225 405 Q285 455 350 414 Q270 425 230 355 Q175 270 190 165 Z" fill="url(#banana)"/>
+    <path d="M225 130 Q175 265 275 375 Q330 430 390 382 Q315 390 280 320 Q230 235 245 135 Z" fill="url(#banana)"/>
+    <path d="M285 115 Q245 250 335 350 Q390 410 445 355 Q375 365 345 295 Q300 215 310 120 Z" fill="url(#banana)"/>
+    <path d="M345 130 Q315 245 395 325 Q435 365 475 330 Q420 335 405 275 Q375 215 375 135 Z" fill="url(#banana)"/>
+  </g>  <g fill="#76501a">
+    <path d="M185 160 l-12 -18 25 4 Z"/>
+    <path d="M240 135 l-8 -20 22 7 Z"/>
+    <path d="M305 120 l-5 -18 22 8 Z"/>
+    <path d="M370 138 l-2 -19 20 10 Z"/>
+  </g>  <g fill="#fff8c7" opacity="0.85">
+    <path d="M153 220 Q135 300 193 353" fill="none" stroke="#fff8c7" stroke-width="9" stroke-linecap="round"/>
+    <path d="M221 190 Q204 265 258 326" fill="none" stroke="#fff8c7" stroke-width="8" stroke-linecap="round"/>
+  </g><text x="300" y="510" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#72510d">NDIZI TAMU</text>
+<text x="300" y="548" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#8a702c">Mazao bora ya Tanzania</text>
 </svg>
