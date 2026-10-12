@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+<rect width="800" height="600" rx="36" fill="#edf7e8"/>
+<ellipse cx="400" cy="475" rx="180" ry="25" fill="#cbdcbd"/>
+<path d="M400 110 C350 160 270 255 270 350 C270 430 325 465 400 465 C475 465 530 430 530 350 C530 255 450 160 400 110Z" fill="#397b3e" stroke="#24582c" stroke-width="12"/>
+<path d="M400 180 C360 225 310 285 310 355 C310 410 350 435 400 435 C450 435 490 410 490 355 C490 285 440 225 400 180Z" fill="#a8cf66" stroke="#e1e8a0" stroke-width="8"/>
+<circle cx="400" cy="355" r="55" fill="#9a5b2c" stroke="#6e3e20" stroke-width="8"/>
+<text x="400" y="545" font-size="42" text-anchor="middle" font-family="Arial" font-weight="bold" fill="#24582c">PARACHICHI</text>
+</svg>
