@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" rx="36" fill="#edf7e5"/>
+  <ellipse cx="400" cy="490" rx="220" ry="25" fill="#c9dfb9"/>
+  <g stroke="#286b32" stroke-width="12" stroke-linejoin="round">
+    <path d="M400 480 Q350 300 210 160 Q180 280 270 365 Q330 425 400 480Z" fill="#56a84e"/>
+    <path d="M400 480 Q430 270 570 140 Q600 270 510 365 Q460 425 400 480Z" fill="#72bf54"/>
+    <path d="M400 480 Q300 340 320 190 Q400 220 430 320 Q445 400 400 480Z" fill="#3c913e"/>
+    <path d="M400 480 Q490 350 480 220 Q390 260 380 355Z" fill="#8bcf62"/>
+  </g>
+  <g stroke="#c7e7a3" stroke-width="7">
+    <path d="M400 480 L210 160 M400 480 L570 140 M400 480 L320 190 M400 480 L480 220"/>
+  </g>
+  <text x="400" y="555" font-size="36" text-anchor="middle" font-family="Arial" font-weight="bold" fill="#24552a">SUKUMA WIKI</text>
+</svg>
