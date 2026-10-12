@@ -32,7 +32,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Mboga safi zilizochaguliwa asubuhi. Zinafaa kwa kupikwa pamoja na nyanya na vitunguu.",
     category: "leafy",
-    image: "/products/sukuma-wiki.jpg",
+    image: "/products/sukuma-wiki.svg",
     unit: "fungu",
     price: 1000,
     compareAt: 1500,
@@ -47,7 +47,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Ndizi tamu zilizoiva vizuri, tayari kuliwa au kutumika kwenye uji.",
     category: "fruit",
-    image: "/products/bananas.jpg",
+    image: "/products/bananas.svg",
     unit: "kilo",
     price: 50000,
     origin: "Kagera",
@@ -60,7 +60,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Parachichi laini na tamu, yanafaa kwa kachumbari, saladi au kula moja kwa moja.",
     category: "fruit",
-    image: "/products/avocados.jpg",
+    image: "/products/avocados.svg",
     unit: "pakiti ya 3",
     price: 3000,
     origin: "Njombe",
@@ -74,7 +74,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Nyanya safi zenye ladha nzuri kwa kachumbari, mchuzi na mapishi ya kila siku.",
     category: "fruit",
-    image: "/products/tomatoes.jpg",
+    image: "/products/tomatoes.svg",
     unit: "kilo",
     price: 50000,
     origin: "Arusha",
@@ -87,7 +87,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Maembe matamu yaliyoiva vizuri, yanafaa kuliwa moja kwa moja au kutengeneza juisi.",
     category: "fruit",
-    image: "/products/mangoes.jpg",
+    image: "/products/mangoes.svg",
     unit: "kilo",
     price: 3000,
     compareAt: 4000,
@@ -101,7 +101,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Vitunguu vyenye ladha nzuri kwa mchuzi, kachumbari na mapishi ya kila siku.",
     category: "roots",
-    image: "/products/red-onions.jpg",
+    image: "/products/red-onions.svg",
     unit: "kilo",
     price: 2000,
     origin: "Manyara",
@@ -113,7 +113,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Viazi bora vinavyofaa kuchemsha, kukaanga, kuoka au kutengeneza chipsi.",
     category: "roots",
-    image: "/products/potatoes.jpg",
+    image: "/products/potatoes.svg",
     unit: "kilo",
     price: 1800,
     origin: "Mbeya",
@@ -125,7 +125,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Matunda ya passion yaliyoiva, yenye harufu nzuri na ladha tamu yenye uchachu.",
     category: "fruit",
-    image: "/products/passion-fruit.jpg",
+    image: "/products/passion-fruit.svg",
     unit: "kilo",
     price: 5000,
     origin: "Kagera",
@@ -138,7 +138,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Mchanganyiko wa mazao kwa matumizi ya familia, ukiwa na mboga, matunda, vitunguu, nyanya na viazi.",
     category: "crates",
-    image: "/images/hero.jpg",
+    image: "/images/hero.svg",
     collage: ["sukuma-wiki", "tomatoes", "bananas", "avocados"],
     unit: "kifurushi",
     price: 25000,
@@ -161,7 +161,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Maembe, ndizi na matunda ya passion kwa ajili ya familia.",
     category: "crates",
-    image: "/products/mangoes.jpg",
+    image: "/products/mangoes.svg",
     collage: ["mangoes", "bananas", "passion-fruit", "avocados"],
     unit: "kifurushi",
     price: 18000,
@@ -175,7 +175,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Vitu muhimu kwa mapishi ya nyumbani: mboga, nyanya, vitunguu na viazi.",
     category: "crates",
-    image: "/products/tomatoes.jpg",
+    image: "/products/tomatoes.svg",
     collage: ["sukuma-wiki", "tomatoes", "red-onions", "potatoes"],
     unit: "kifurushi",
     price: 15000,
