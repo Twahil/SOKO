@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+<rect width="800" height="600" rx="36" fill="#fff0e8"/>
+<ellipse cx="400" cy="475" rx="230" ry="25" fill="#f0c8b8"/>
+<g stroke="#a32222" stroke-width="10">
+<circle cx="300" cy="330" r="115" fill="#ed3d32"/>
+<circle cx="485" cy="340" r="120" fill="#e52d2d"/>
+<circle cx="400" cy="245" r="105" fill="#f04438"/>
+</g>
+<g fill="#398447" stroke="#286b32" stroke-width="7">
+<path d="M400 150 L380 105 L410 125 L440 95 L430 145 L475 155 L430 175 L400 150Z"/>
+<path d="M290 225 L255 190 L295 205 L320 175 L320 220Z"/>
+<path d="M490 230 L520 190 L510 225 L550 215 L520 250Z"/>
+</g>
+<text x="400" y="545" font-size="42" text-anchor="middle" font-family="Arial" font-weight="bold" fill="#a32222">NYANYA</text>
+</svg>
