@@ -96,14 +96,17 @@ function SellPage() {
     if (!selected) return;
 
     const allowedTypes = [
-      "audio/mpeg",
-      "audio/mp4",
-      "audio/webm",
-      "audio/ogg",
-      "audio/wav",
-      "audio/x-m4a",
-      "audio/aac",
-    ];
+  "audio/mpeg",
+  "audio/mp4",
+  "audio/webm",
+  "audio/ogg",
+  "audio/wav",
+  "audio/x-m4a",
+  "audio/aac",
+  "audio/3gpp",
+  "audio/webm;codecs=opus",
+  "audio/mp4;codecs=mp4a.40.2",
+];
 
     if (!allowedTypes.includes(selected.type)) {
       setAudioMessage(
