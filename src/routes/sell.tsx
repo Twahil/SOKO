@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { uploadSellerProductImage } from "@/lib/product-images";
+import { uploadSellerProductAudio } from "@/lib/product-audio";
 
 export const Route = createFileRoute("/sell")({
   component: SellPage,
@@ -9,29 +10,32 @@ export const Route = createFileRoute("/sell")({
 function SellPage() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState("");
-  const [message, setMessage] = useState("");
-  const [busy, setBusy] = useState(false);
+  const [imageMessage, setImageMessage] = useState("");
+  const [imageBusy, setImageBusy] = useState(false);
+
+  const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [audioPreview, setAudioPreview] = useState("");
+  const [audioMessage, setAudioMessage] = useState("");
+  const [audioBusy, setAudioBusy] = useState(false);
+  const [recording, setRecording] = useState(false);
+
+  const recorderRef = useRef<MediaRecorder | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
 
   function chooseImage(selected: File | undefined) {
-    setMessage("");
+    setImageMessage("");
     setPreview("");
     setFile(null);
 
     if (!selected) return;
 
-    const allowedTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/webp",
-    ];
-
-    if (!allowedTypes.includes(selected.type)) {
-      setMessage("Chagua picha ya JPG, PNG au WebP.");
+    if (!["image/jpeg", "image/png", "image/webp"].includes(selected.type)) {
+      setImageMessage("Chagua picha ya JPG, PNG au WebP.");
       return;
     }
 
     if (selected.size > 5 * 1024 * 1024) {
-      setMessage("Picha isizidi MB 5.");
+      setImageMessage("Picha isizidi MB 5.");
       return;
     }
 
@@ -41,56 +45,200 @@ function SellPage() {
 
   async function uploadImage() {
     if (!file) {
-      setMessage("Tafadhali chagua au piga picha kwanza.");
+      setImageMessage("Tafadhali chagua picha kwanza.");
       return;
     }
 
-    setBusy(true);
-    setMessage("");
+    setImageBusy(true);
+    setImageMessage("");
 
     try {
-      const base64 = await new Promise<string>(
-        (resolve, reject) => {
-          const reader = new FileReader();
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
 
-          reader.onload = () => {
-            const result = reader.result;
-
-            if (typeof result !== "string") {
-              reject(new Error("Imeshindikana kusoma picha."));
-              return;
-            }
-
-            resolve(result.split(",")[1] ?? "");
-          };
-
-          reader.onerror = () =>
+        reader.onload = () => {
+          if (typeof reader.result !== "string") {
             reject(new Error("Imeshindikana kusoma picha."));
+            return;
+          }
+          resolve(reader.result.split(",")[1] ?? "");
+        };
 
-          reader.readAsDataURL(file);
-        },
-      );
+        reader.onerror = () => reject(new Error("Imeshindikana kusoma picha."));
+        reader.readAsDataURL(file);
+      });
 
       const result = await uploadSellerProductImage({
         data: {
           fileName: file.name,
-          contentType: file.type as
-            | "image/jpeg"
-            | "image/png"
-            | "image/webp",
+          contentType: file.type as "image/jpeg" | "image/png" | "image/webp",
           base64,
         },
       });
 
-      setMessage("Picha imehifadhiwa kwa mafanikio!");
       setPreview(result.imageUrl);
       setFile(null);
+      setImageMessage("Picha imehifadhiwa kwa mafanikio!");
     } catch {
-      setMessage(
+      setImageMessage(
         "Picha haijahifadhiwa. Hakikisha umeingia kwenye akaunti na mipangilio ya hifadhi imekamilika.",
       );
     } finally {
-      setBusy(false);
+      setImageBusy(false);
+    }
+  }
+
+  function chooseAudio(selected: File | undefined) {
+    setAudioMessage("");
+    setAudioPreview("");
+    setAudioFile(null);
+
+    if (!selected) return;
+
+    const allowedTypes = [
+      "audio/mpeg",
+      "audio/mp4",
+      "audio/webm",
+      "audio/ogg",
+      "audio/wav",
+      "audio/x-m4a",
+      "audio/aac",
+    ];
+
+    if (!allowedTypes.includes(selected.type)) {
+      setAudioMessage(
+        "Muundo huu wa sauti hautumiki. Jaribu MP3, M4A, WAV, OGG au WEBM.",
+      );
+      return;
+    }
+
+    if (selected.size > 10 * 1024 * 1024) {
+      setAudioMessage("Sauti isizidi MB 10.");
+      return;
+    }
+
+    setAudioFile(selected);
+    setAudioPreview(URL.createObjectURL(selected));
+  }
+
+  async function startRecording() {
+    if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
+      setAudioMessage(
+        "Kifaa hiki hakitumii kurekodi sauti hapa. Chagua sauti iliyopo kwenye simu.",
+      );
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+
+      const preferredType = [
+        "audio/webm;codecs=opus",
+        "audio/webm",
+        "audio/mp4",
+      ].find((type) => MediaRecorder.isTypeSupported(type));
+
+      const recorder = preferredType
+        ? new MediaRecorder(stream, { mimeType: preferredType })
+        : new MediaRecorder(stream);
+
+      chunksRef.current = [];
+      recorderRef.current = recorder;
+
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) chunksRef.current.push(event.data);
+      };
+
+      recorder.onstop = () => {
+        const blob = new Blob(chunksRef.current, {
+          type: recorder.mimeType || "audio/webm",
+        });
+
+        stream.getTracks().forEach((track) => track.stop());
+
+        if (blob.size > 10 * 1024 * 1024) {
+          setAudioMessage("Sauti iliyorekodiwa imezidi MB 10.");
+          return;
+        }
+
+        const extension = blob.type.includes("mp4") ? "m4a" : "webm";
+        const recordedFile = new File(
+          [blob],
+          `sauti-bidhaa-${Date.now()}.${extension}`,
+          { type: blob.type },
+        );
+
+        chooseAudio(recordedFile);
+        setRecording(false);
+      };
+
+      recorder.start();
+      setRecording(true);
+      setAudioMessage("Unarekodi sauti. Bonyeza Maliza kurekodi ukimaliza.");
+    } catch {
+      setAudioMessage(
+        "Imeshindikana kuanza kurekodi. Ruhusu matumizi ya maikrofoni kwenye simu yako.",
+      );
+    }
+  }
+
+  function stopRecording() {
+    if (recorderRef.current?.state === "recording") {
+      recorderRef.current.stop();
+    }
+  }
+
+  async function uploadAudio() {
+    if (!audioFile) {
+      setAudioMessage("Chagua au rekodi sauti kwanza.");
+      return;
+    }
+
+    setAudioBusy(true);
+    setAudioMessage("");
+
+    try {
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+          if (typeof reader.result !== "string") {
+            reject(new Error("Imeshindikana kusoma sauti."));
+            return;
+          }
+          resolve(reader.result.split(",")[1] ?? "");
+        };
+
+        reader.onerror = () => reject(new Error("Imeshindikana kusoma sauti."));
+        reader.readAsDataURL(audioFile);
+      });
+
+      const result = await uploadSellerProductAudio({
+        data: {
+          fileName: audioFile.name,
+          contentType: audioFile.type as
+            | "audio/mpeg"
+            | "audio/mp4"
+            | "audio/webm"
+            | "audio/ogg"
+            | "audio/wav"
+            | "audio/x-m4a"
+            | "audio/aac",
+          base64,
+        },
+      });
+
+      setAudioPreview(result.audioUrl);
+      setAudioFile(null);
+      setAudioMessage("Sauti imehifadhiwa kwa mafanikio!");
+    } catch {
+      setAudioMessage(
+        "Sauti haijahifadhiwa. Hakikisha umeingia kwenye akaunti na bucket product-audio ina ruhusa sahihi.",
+      );
+    } finally {
+      setAudioBusy(false);
     }
   }
 
@@ -105,10 +253,8 @@ function SellPage() {
     >
       <h1>Weka Bidhaa Sokoni</h1>
 
-      <p>
-        Piga picha ya bidhaa yako au chagua picha iliyopo
-        kwenye simu.
-      </p>
+      <h2>Picha ya bidhaa</h2>
+      <p>Piga picha ya bidhaa yako au chagua picha iliyopo kwenye simu.</p>
 
       <label
         htmlFor="product-image"
@@ -129,15 +275,8 @@ function SellPage() {
         type="file"
         accept="image/jpeg,image/png,image/webp"
         capture="environment"
-        onChange={(event) =>
-          chooseImage(event.target.files?.[0])
-        }
-        style={{
-          display: "block",
-          width: "100%",
-          marginTop: 12,
-          marginBottom: 16,
-        }}
+        onChange={(event) => chooseImage(event.target.files?.[0])}
+        style={{ display: "block", width: "100%", marginTop: 12, marginBottom: 16 }}
       />
 
       {preview && (
@@ -158,30 +297,108 @@ function SellPage() {
       <button
         type="button"
         onClick={uploadImage}
-        disabled={!file || busy}
+        disabled={!file || imageBusy}
         style={{
           width: "100%",
           padding: 14,
           border: "none",
           borderRadius: 8,
-          background: busy ? "#888" : "#16803d",
+          background: imageBusy ? "#888" : "#16803d",
           color: "white",
           fontSize: 16,
-          cursor: busy ? "wait" : "pointer",
         }}
       >
-        {busy ? "Inahifadhi picha..." : "Hifadhi Picha"}
+        {imageBusy ? "Inahifadhi picha..." : "Hifadhi Picha"}
       </button>
 
-      {message && (
+      {imageMessage && <p role="status">{imageMessage}</p>}
+
+      <hr style={{ margin: "28px 0" }} />
+
+      <h2>Sauti ya bidhaa</h2>
+      <p>Eleza bidhaa yako kwa sauti ili wanunuzi waweze kuisikiliza.</p>
+
+      <label htmlFor="product-audio" style={{ display: "block", marginBottom: 8 }}>
+        🎵 Chagua sauti iliyopo kwenye simu
+      </label>
+
+      <input
+        id="product-audio"
+        type="file"
+        accept="audio/*"
+        onChange={(event) => chooseAudio(event.target.files?.[0])}
+        style={{ display: "block", width: "100%", marginBottom: 16 }}
+      />
+
+      {!recording ? (
+        <button
+          type="button"
+          onClick={startRecording}
+          style={{
+            width: "100%",
+            padding: 14,
+            border: "none",
+            borderRadius: 8,
+            background: "#1565c0",
+            color: "white",
+            fontSize: 16,
+            marginBottom: 10,
+          }}
+        >
+          🎙️ Rekodi sauti mpya
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={stopRecording}
+          style={{
+            width: "100%",
+            padding: 14,
+            border: "none",
+            borderRadius: 8,
+            background: "#b3261e",
+            color: "white",
+            fontSize: 16,
+            marginBottom: 10,
+          }}
+        >
+          ⏹ Maliza kurekodi
+        </button>
+      )}
+
+      {audioPreview && (
+        <audio
+          controls
+          src={audioPreview}
+          style={{ display: "block", width: "100%", margin: "12px 0" }}
+        />
+      )}
+
+      <button
+        type="button"
+        onClick={uploadAudio}
+        disabled={!audioFile || audioBusy || recording}
+        style={{
+          width: "100%",
+          padding: 14,
+          border: "none",
+          borderRadius: 8,
+          background: audioBusy ? "#888" : "#16803d",
+          color: "white",
+          fontSize: 16,
+        }}
+      >
+        {audioBusy ? "Inahifadhi sauti..." : "Hifadhi Sauti"}
+      </button>
+
+      {audioMessage && (
         <p role="status" aria-live="polite">
-          {message}
+          {audioMessage}
         </p>
       )}
 
       <p style={{ fontSize: 13, color: "#666" }}>
-        Picha inapaswa kuwa JPG, PNG au WebP, na isizidi
-        MB 5.
+        Sauti isizidi MB 10. Ruhusu maikrofoni unapotaka kurekodi.
       </p>
     </main>
   );
