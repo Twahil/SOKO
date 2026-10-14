@@ -53,7 +53,16 @@ className="size-full object-cover transition-transform duration-200 hover:scale-
 
       <p className="mt-1 text-xs text-muted">
         {product.origin} · {product.unit}
-      </p>
+      </p>{product.audio ? (
+  <audio
+    controls
+    preload="none"
+    src={product.audio}
+    className="mt-3 w-full"
+  >
+    Kifaa chako hakiwezi kucheza sauti hii.
+  </audio>
+) : null}
     </div>
 
     <div>
