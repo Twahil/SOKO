@@ -2,32 +2,26 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { authMiddleware } from "./auth/middleware";
 
+const allowedAudioTypes = [
+  "audio/mpeg",
+  "audio/mp4",
+  "audio/webm",
+  "audio/ogg",
+  "audio/wav",
+  "audio/x-m4a",
+  "audio/aac",
+  "audio/3gpp",
+  "audio/webm;codecs=opus",
+  "audio/mp4;codecs=mp4a.40.2",
+] as const;
+
 const audioSchema = z.object({
   fileName: z.string().min(1).max(150),
-  contentType: contentType: z.string().refine(
-  (type) =>
-    [
-      "audio/mpeg",
-      "audio/mp4",
-      "audio/webm",
-      "audio/ogg",
-      "audio/wav",
-      "audio/x-m4a",
-      "audio/aac",
-      "audio/3gpp",
-      "audio/webm;codecs=opus",
-      "audio/mp4;codecs=mp4a.40.2",
-    ].includes(type),
-  "Aina hii ya sauti haikubaliki.",
-),
-    "audio/mpeg",
-    "audio/mp4",
-    "audio/webm",
-    "audio/ogg",
-    "audio/wav",
-    "audio/x-m4a",
-    "audio/aac",
-  ]),
+  contentType: z.string().refine(
+    (type) =>
+      (allowedAudioTypes as readonly string[]).includes(type),
+    "Aina hii ya sauti haikubaliki.",
+  ),
   base64: z.string().min(1).max(14_000_000),
 });
 
