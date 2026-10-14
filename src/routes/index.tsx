@@ -8,8 +8,6 @@ import { formatTsh } from "@/lib/money";
 export const Route = createFileRoute("/")({ component: Home });
 
 function Home() {
-  
-function Home() {
   const featured = [];
   const crates = [];
   return (
