@@ -83,8 +83,10 @@ export const getPublishedProducts = createServerFn({
     throw new Error("Mipangilio ya Supabase haijakamilika.");
   }
 
+  const baseUrl = supabaseUrl.replace(/\/+$/, "");
+
   const response = await fetch(
-    `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/products?select=id,name,description,price,unit,category,image_url,audio_url,origin,created_at&order=created_at.desc`,
+    `${baseUrl}/rest/v1/products?select=id,name,description,price,unit,category,image_url,audio_url,origin,created_at&order=created_at.desc`,
     {
       headers: {
         apikey: supabaseKey,
@@ -97,5 +99,37 @@ export const getPublishedProducts = createServerFn({
     throw new Error("Imeshindikana kusoma bidhaa kutoka Supabase.");
   }
 
-  return response.json();
+  const products = await response.json();
+
+  return products.map((product: {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    unit: string;
+    category: string;
+    image_url: string | null;
+    audio_url: string | null;
+    origin: string | null;
+    created_at: string;
+  }) => {
+    const getPublicUrl = (bucket: string, path: string | null) => {
+      if (!path) return null;
+
+      if (path.startsWith("http://") || path.startsWith("https://")) {
+        return path;
+      }
+
+      return `${baseUrl}/storage/v1/object/public/${bucket}/${path
+        .split("/")
+        .map(encodeURIComponent)
+        .join("/")}`;
+    };
+
+    return {
+      ...product,
+      image_url: getPublicUrl("bidhaa", product.image_url),
+      audio_url: getPublicUrl("product-audio", product.audio_url),
+    };
+  });
 });
