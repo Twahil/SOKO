@@ -8,9 +8,10 @@ import { formatTsh } from "@/lib/money";
 export const Route = createFileRoute("/")({ component: Home });
 
 function Home() {
-  const featured = PRODUCTS.filter((p) => p.featured && p.category !== "crates");
-  const crates = PRODUCTS.filter((p) => p.category === "crates");
-
+  
+function Home() {
+  const featured = [];
+  const crates = [];
   return (
     <div>
       <section className="relative isolate min-h-[28rem] overflow-hidden sm:min-h-[32rem]">
