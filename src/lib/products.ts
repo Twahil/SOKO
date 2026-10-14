@@ -73,3 +73,29 @@ export const saveSellerProduct = createServerFn({
       product: products[0],
     };
   });
+export const getPublishedProducts = createServerFn({
+  method: "GET",
+}).handler(async () => {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SECRET_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error("Mipangilio ya Supabase haijakamilika.");
+  }
+
+  const response = await fetch(
+    `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/products?select=id,name,description,price,unit,category,image_url,audio_url,origin,created_at&order=created_at.desc`,
+    {
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("Imeshindikana kusoma bidhaa kutoka Supabase.");
+  }
+
+  return response.json();
+});
