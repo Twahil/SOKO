@@ -3,7 +3,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 import { ProductCard } from "@/components/product-card";
 import { Input } from "@/components/ui/input";
-import { CATEGORIES } from "@/lib/catalog";
+import { CATEGORIES, type Product } from "@/lib/catalog";
 import { getPublishedProducts } from "@/lib/products";
 import { cn } from "@/lib/utils";
 
