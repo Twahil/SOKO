@@ -8,8 +8,8 @@ import { formatTsh } from "@/lib/money";
 export const Route = createFileRoute("/")({ component: Home });
 
 function Home() {
-  const featured = [];
-  const crates = [];
+const featured: import("@/lib/catalog").Product[] = [];
+const crates: import("@/lib/catalog").Product[] = [];
   return (
     <div>
       <section className="relative isolate min-h-[28rem] overflow-hidden sm:min-h-[32rem]">
