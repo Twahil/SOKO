@@ -31,7 +31,17 @@ useEffect(() => {
     .then((rows) => {
       if (cancelled) return;
 
-      const mapped: Product[] = rows.map((row) => ({
+      const mapped: Product[] = rows.map((row: {
+  id: string;
+  name: string;
+  description: string | null;
+  price: number;
+  unit: string;
+  category: string;
+  image_url: string | null;
+  audio_url: string | null;
+  origin: string | null;
+}) => ({
         id: row.id,
         name: row.name,
         kicker: row.category,
