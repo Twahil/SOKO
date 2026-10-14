@@ -21,8 +21,58 @@ function SokoPage() {
   const { q, cat } = Route.useSearch();
   const navigate = useNavigate({ from: "/shop" });
   const [draft, setDraft] = useState(q ?? "");
-  const items = productsIn(cat, q);
-  const active = cat ?? "all";
+const [items, setItems] = useState<Product[]>([]);
+const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+  let cancelled = false;
+
+  getPublishedProducts()
+    .then((rows) => {
+      if (cancelled) return;
+
+      const mapped: Product[] = rows.map((row) => ({
+        id: row.id,
+        name: row.name,
+        kicker: row.category,
+        description: row.description ?? "",
+        category: CATEGORIES.some((c) => c.id === row.category)
+          ? (row.category as Product["category"])
+          : CATEGORIES[0].id,
+        image: row.image_url ?? "",
+        audio: row.audio_url,
+        unit: row.unit,
+        price: Number(row.price),
+        origin: row.origin ?? "Tanzania",
+      }));
+
+      setItems(mapped);
+    })
+    .catch((error) => {
+      console.error("Imeshindwa kupakia bidhaa:", error);
+    })
+    .finally(() => {
+      if (!cancelled) setLoading(false);
+    });
+
+  return () => {
+    cancelled = true;
+  };
+}, []);
+
+const filteredItems = items.filter((item) => {
+  const matchesCategory = !cat || item.category === cat;
+  const query = q?.trim().toLowerCase();
+
+  const matchesQuery =
+    !query ||
+    item.name.toLowerCase().includes(query) ||
+    item.description.toLowerCase().includes(query);
+
+  return matchesCategory && matchesQuery;
+});
+
+const active = cat ?? "all";
   const label =
     CATEGORIES.find((c) => c.id === cat)?.label ?? (q ? `Results for “${q}”` : "Soko la leo");
 
