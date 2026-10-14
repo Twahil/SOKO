@@ -118,13 +118,17 @@ const active = cat ?? "all";
         ))}
       </div>
 
-      {items.length === 0 ? (
-        <p className="mt-16 text-center text-muted">
+      
+      {loading ? (
+  <p className="mt-16 text-center text-muted">
+    Inapakia bidhaa...
+  </p>
+) : filteredItems.length === 0 ? (  <p className="mt-16 text-center text-muted">
           Hakuna bidhaa inayolingana na utafutaji huo. Jaribu nyanya, mboga au vifurushi.
         </p>
       ) : (
         <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {items.map((p) => (
+          {filteredItems.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
