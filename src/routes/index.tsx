@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Bike, Clock, Leaf } from "lucide-react";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
-import { CATEGORIES, PRODUCTS } from "@/lib/catalog";
+import { CATEGORIES } from "@/lib/catalog";
 import { formatTsh } from "@/lib/money";
 
 export const Route = createFileRoute("/")({ component: Home });
