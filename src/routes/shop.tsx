@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 import { ProductCard } from "@/components/product-card";
