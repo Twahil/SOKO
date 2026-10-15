@@ -11,17 +11,19 @@ const allowedAudioTypes = [
   "audio/x-m4a",
   "audio/aac",
   "audio/3gpp",
-  "audio/webm;codecs=opus",
-  "audio/mp4;codecs=mp4a.40.2",
 ] as const;
 
 const audioSchema = z.object({
   fileName: z.string().min(1).max(150),
+
   contentType: z.string().refine(
     (type) =>
-      (allowedAudioTypes as readonly string[]).includes(type),
+      (allowedAudioTypes as readonly string[]).includes(
+        type.split(";")[0].trim().toLowerCase(),
+      ),
     "Aina hii ya sauti haikubaliki.",
   ),
+
   base64: z.string().min(1).max(14_000_000),
 });
 
@@ -39,6 +41,17 @@ export const uploadSellerProductAudio = createServerFn({
         "Mipangilio ya kuhifadhi sauti haijakamilika.",
       );
     }
+
+    const originalType = data.contentType
+      .split(";")[0]
+      .trim()
+      .toLowerCase();
+
+    // Supabase bucket inaruhusu audio/mp4, si audio/x-m4a.
+    const storageContentType =
+      originalType === "audio/x-m4a"
+        ? "audio/mp4"
+        : originalType;
 
     const cleanName = data.fileName
       .replace(/[^a-zA-Z0-9._-]/g, "_")
@@ -59,6 +72,7 @@ export const uploadSellerProductAudio = createServerFn({
     }
 
     const baseUrl = supabaseUrl.replace(/\/+$/, "");
+
     const encodedPath = filePath
       .split("/")
       .map(encodeURIComponent)
@@ -71,7 +85,7 @@ export const uploadSellerProductAudio = createServerFn({
         headers: {
           apikey: supabaseKey,
           Authorization: `Bearer ${supabaseKey}`,
-          "Content-Type": data.contentType,
+          "Content-Type": storageContentType,
           "x-upsert": "false",
         },
         body: bytes,
@@ -80,7 +94,7 @@ export const uploadSellerProductAudio = createServerFn({
 
     if (!uploadResponse.ok) {
       throw new Error(
-        "Imeshindikana kuhifadhi sauti. Jaribu tena.",
+        "Imeshindikana kuhifadhi sauti. Hakikisha aina ya faili inaruhusiwa, kisha jaribu tena.",
       );
     }
 
