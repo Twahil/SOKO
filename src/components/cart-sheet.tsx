@@ -278,4 +278,32 @@ export function CartSheet({
               })}
             </div>
 
-            <footer className="space-y-4
+            <footer className="space-y-4 border-t border-border p-4">
+  <div className="flex items-center justify-between">
+    <span className="text-sm text-muted">
+      Jumla ya bidhaa
+    </span>
+
+    <span className="text-lg font-bold">
+      {formatTsh(subtotal)}
+    </span>
+  </div>
+
+  <p className="text-xs text-muted">
+    Gharama za usafirishaji zinaweza kuongezwa.
+  </p>
+
+  <Link
+    to="/shop"
+    onClick={() => onOpenChange(false)}
+    className="block rounded-md border border-border px-4 py-3 text-center"
+  >
+    Endelea kununua
+  </Link>
+</footer>
+</>
+)}
+</section>
+</div>
+);
+}
