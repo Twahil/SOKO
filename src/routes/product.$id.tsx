@@ -77,7 +77,9 @@ function ProductDetail() {
           setError("Imeshindikana kupakia bidhaa. Tafadhali jaribu tena.");
         }
       } finally {
-        if (active) setLoading(false);
+        if (active) {
+          setLoading(false);
+        }
       }
     }
 
@@ -112,17 +114,10 @@ function ProductDetail() {
 
   const total = product.price * qty;
 
-  
-function addProductToCart() {
-  if (!product) return;
+  function addProductToCart() {
+    addToCart(product.id, qty, product.price);
+    setAdded(true);
 
-  addToCart(product.id, qty, product.price);
-  setAdded(true);
-
-  window.setTimeout(() => {
-    setAdded(false);
-  }, 2500);
-}
     window.setTimeout(() => {
       setAdded(false);
     }, 2500);
@@ -225,7 +220,9 @@ function addProductToCart() {
                     variant="outline"
                     size="icon"
                     aria-label="Ongeza idadi"
-                    onClick={() => setQty((current) => current + 1)}
+                    onClick={() =>
+                      setQty((current) => current + 1)
+                    }
                   >
                     <Plus className="size-4" />
                   </Button>
@@ -234,6 +231,7 @@ function addProductToCart() {
 
               <div className="text-right">
                 <p className="text-sm text-muted">Jumla</p>
+
                 <p className="mt-1 text-lg font-bold tabular-nums">
                   {formatTsh(total)}
                 </p>
@@ -245,7 +243,9 @@ function addProductToCart() {
               onClick={addProductToCart}
             >
               <ShoppingCart className="size-4" />
-              {added ? "Imeongezwa kwenye kikapu ✓" : "Weka kwenye kikapu"}
+              {added
+                ? "Imeongezwa kwenye kikapu ✓"
+                : "Weka kwenye kikapu"}
             </Button>
 
             {added ? (
