@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { getPublishedProducts } from "@/lib/products";
 import type { Product } from "@/lib/catalog";
 import { useSokoStore } from "@/lib/store";
@@ -29,6 +30,8 @@ function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [imageError, setImageError] = useState(false);
+  const [qty, setQty] = useState(1);
+  const [added, setAdded] = useState(false);
 
   const addToCart = useSokoStore((state) => state.add);
 
@@ -87,7 +90,7 @@ function ProductDetail() {
 
   if (loading) {
     return (
-      <main className="p-6 text-center">
+      <main className="mx-auto max-w-3xl p-6 text-center">
         Inapakia maelezo ya bidhaa...
       </main>
     );
@@ -96,7 +99,7 @@ function ProductDetail() {
   if (error || !product) {
     return (
       <main className="mx-auto max-w-3xl p-6">
-        <p role="alert" className="text-red-600">
+        <p role="alert" className="text-danger">
           {error || "Bidhaa haijapatikana."}
         </p>
 
@@ -107,75 +110,148 @@ function ProductDetail() {
     );
   }
 
+  const total = product.price * qty;
+
+  function addProductToCart() {
+    addToCart(product.id, qty, product.price);
+    setAdded(true);
+
+    window.setTimeout(() => {
+      setAdded(false);
+    }, 2500);
+  }
+
   return (
-    <main className="mx-auto max-w-3xl p-4 sm:p-6">
-      <Link to="/shop" className="mb-5 inline-block underline">
+    <main className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
+      <Link to="/shop" className="mb-6 inline-block underline">
         ← Rudi dukani
       </Link>
 
-      <div className="space-y-6">
-        {product.image && !imageError ? (
-          <img
-            src={product.image}
-            alt={product.name}
-            onError={() => setImageError(true)}
-            className="max-h-[420px] w-full rounded-xl bg-muted/20 object-contain"
-          />
-        ) : (
-          <div className="flex h-56 items-center justify-center rounded-xl bg-muted/20 text-muted">
-            Picha ya bidhaa haipatikani
+      <div className="grid gap-8 md:grid-cols-2">
+        <section>
+          {product.image && !imageError ? (
+            <img
+              src={product.image}
+              alt={product.name}
+              onError={() => setImageError(true)}
+              className="aspect-square w-full rounded-xl bg-muted/20 object-contain"
+            />
+          ) : (
+            <div className="flex aspect-square items-center justify-center rounded-xl bg-muted/20 text-muted">
+              Picha ya bidhaa haipatikani
+            </div>
+          )}
+        </section>
+
+        <section className="space-y-6">
+          <div>
+            <p className="text-sm text-muted">{product.kicker}</p>
+
+            <h1 className="mt-1 text-3xl font-bold">
+              {product.name}
+            </h1>
+
+            <p className="mt-3 text-2xl font-semibold">
+              {formatTsh(product.price)}
+              <span className="text-base font-normal text-muted">
+                {" "}
+                / {product.unit}
+              </span>
+            </p>
+
+            <p className="mt-2 text-sm text-muted">
+              Eneo: {product.origin}
+            </p>
           </div>
-        )}
 
-        <section>
-          <p className="text-sm text-muted">{product.kicker}</p>
-
-          <h1 className="mt-1 text-2xl font-bold">
-            {product.name}
-          </h1>
-
-          <p className="mt-3 text-xl font-semibold">
-            {formatTsh(product.price)} / {product.unit}
-          </p>
-
-          <p className="mt-2 text-sm text-muted">
-            Eneo: {product.origin}
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-lg font-semibold">
-            Maelezo ya bidhaa
-          </h2>
-
-          <p className="mt-2 whitespace-pre-wrap">
-            {product.description || "Hakuna maelezo yaliyowekwa."}
-          </p>
-        </section>
-
-        {product.audio ? (
           <section>
-            <h2 className="mb-2 text-lg font-semibold">
-              Tangazo la sauti la muuzaji
+            <h2 className="text-lg font-semibold">
+              Maelezo ya bidhaa
             </h2>
 
-            <audio
-              controls
-              preload="none"
-              src={product.audio}
-              className="w-full"
-            >
-              Kifaa chako hakiwezi kucheza sauti hii.
-            </audio>
+            <p className="mt-2 whitespace-pre-wrap leading-7 text-muted">
+              {product.description || "Hakuna maelezo yaliyowekwa."}
+            </p>
           </section>
-        ) : null}
 
-        <Button
-          className="w-full"
-          onClick={() => addToCart(product.id, 1, product.price)}
-        >
-          Weka kwenye kikapu
-        </Button>
+          {product.audio ? (
+            <section>
+              <h2 className="mb-2 text-lg font-semibold">
+                Tangazo la sauti la muuzaji
+              </h2>
+
+              <audio
+                controls
+                preload="none"
+                src={product.audio}
+                className="w-full"
+              >
+                Kifaa chako hakiwezi kucheza sauti hii.
+              </audio>
+            </section>
+          ) : null}
+
+          <section className="rounded-xl border border-border bg-surface p-4">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="text-sm text-muted">Idadi</p>
+
+                <div className="mt-2 flex items-center gap-3">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    aria-label="Punguza idadi"
+                    onClick={() =>
+                      setQty((current) => Math.max(1, current - 1))
+                    }
+                  >
+                    <Minus className="size-4" />
+                  </Button>
+
+                  <span className="min-w-8 text-center text-lg font-semibold">
+                    {qty}
+                  </span>
+
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    aria-label="Ongeza idadi"
+                    onClick={() => setQty((current) => current + 1)}
+                  >
+                    <Plus className="size-4" />
+                  </Button>
+                </div>
+              </div>
+
+              <div className="text-right">
+                <p className="text-sm text-muted">Jumla</p>
+                <p className="mt-1 text-lg font-bold tabular-nums">
+                  {formatTsh(total)}
+                </p>
+              </div>
+            </div>
+
+            <Button
+              className="mt-5 w-full"
+              onClick={addProductToCart}
+            >
+              <ShoppingCart className="size-4" />
+              {added ? "Imeongezwa kwenye kikapu ✓" : "Weka kwenye kikapu"}
+            </Button>
+
+            {added ? (
+              <Button
+                asChild
+                variant="outline"
+                className="mt-3 w-full"
+              >
+                <Link to="/cart">Fungua kikapu</Link>
+              </Button>
+            ) : null}
+          </section>
+        </section>
       </div>
     </main>
   );
