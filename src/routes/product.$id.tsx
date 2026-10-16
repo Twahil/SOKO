@@ -112,16 +112,12 @@ function ProductDetail() {
     );
   }
 
-  const total = product.price * qty;
+const currentProduct = product;
+const total = currentProduct.price * qty;
 
-  function addProductToCart() {
-    addToCart(product.id, qty, product.price);
-    setAdded(true);
-
-    window.setTimeout(() => {
-      setAdded(false);
-    }, 2500);
-  }
+function addProductToCart() {
+  addToCart(currentProduct.id, qty, currentProduct.price);
+  setAdded(true);  
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
