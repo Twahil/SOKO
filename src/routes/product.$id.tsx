@@ -112,12 +112,22 @@ function ProductDetail() {
     );
   }
 
-const currentProduct = product;
-const total = currentProduct.price * qty;
+  const currentProduct = product;
+  const total = currentProduct.price * qty;
 
-function addProductToCart() {
-  addToCart(currentProduct.id, qty, currentProduct.price);
-  setAdded(true);  
+  function addProductToCart() {
+    addToCart(
+      currentProduct.id,
+      qty,
+      currentProduct.price,
+    );
+
+    setAdded(true);
+
+    window.setTimeout(() => {
+      setAdded(false);
+    }, 2500);
+  }
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
@@ -127,10 +137,10 @@ function addProductToCart() {
 
       <div className="grid gap-8 md:grid-cols-2">
         <section>
-          {product.image && !imageError ? (
+          {currentProduct.image && !imageError ? (
             <img
-              src={product.image}
-              alt={product.name}
+              src={currentProduct.image}
+              alt={currentProduct.name}
               onError={() => setImageError(true)}
               className="aspect-square w-full rounded-xl bg-muted/20 object-contain"
             />
@@ -143,22 +153,24 @@ function addProductToCart() {
 
         <section className="space-y-6">
           <div>
-            <p className="text-sm text-muted">{product.kicker}</p>
+            <p className="text-sm text-muted">
+              {currentProduct.kicker}
+            </p>
 
             <h1 className="mt-1 text-3xl font-bold">
-              {product.name}
+              {currentProduct.name}
             </h1>
 
             <p className="mt-3 text-2xl font-semibold">
-              {formatTsh(product.price)}
+              {formatTsh(currentProduct.price)}
               <span className="text-base font-normal text-muted">
                 {" "}
-                / {product.unit}
+                / {currentProduct.unit}
               </span>
             </p>
 
             <p className="mt-2 text-sm text-muted">
-              Eneo: {product.origin}
+              Eneo: {currentProduct.origin}
             </p>
           </div>
 
@@ -168,11 +180,12 @@ function addProductToCart() {
             </h2>
 
             <p className="mt-2 whitespace-pre-wrap leading-7 text-muted">
-              {product.description || "Hakuna maelezo yaliyowekwa."}
+              {currentProduct.description ||
+                "Hakuna maelezo yaliyowekwa."}
             </p>
           </section>
 
-          {product.audio ? (
+          {currentProduct.audio ? (
             <section>
               <h2 className="mb-2 text-lg font-semibold">
                 Tangazo la sauti la muuzaji
@@ -181,7 +194,7 @@ function addProductToCart() {
               <audio
                 controls
                 preload="none"
-                src={product.audio}
+                src={currentProduct.audio}
                 className="w-full"
               >
                 Kifaa chako hakiwezi kucheza sauti hii.
@@ -201,7 +214,9 @@ function addProductToCart() {
                     size="icon"
                     aria-label="Punguza idadi"
                     onClick={() =>
-                      setQty((current) => Math.max(1, current - 1))
+                      setQty((current) =>
+                        Math.max(1, current - 1),
+                      )
                     }
                   >
                     <Minus className="size-4" />
