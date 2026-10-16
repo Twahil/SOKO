@@ -112,10 +112,17 @@ function ProductDetail() {
 
   const total = product.price * qty;
 
-  function addProductToCart() {
-    addToCart(product.id, qty, product.price);
-    setAdded(true);
+  
+function addProductToCart() {
+  if (!product) return;
 
+  addToCart(product.id, qty, product.price);
+  setAdded(true);
+
+  window.setTimeout(() => {
+    setAdded(false);
+  }, 2500);
+}
     window.setTimeout(() => {
       setAdded(false);
     }, 2500);
